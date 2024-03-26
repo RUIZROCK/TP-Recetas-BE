@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import './src/database/database.js'
 
 const app = express()
 
