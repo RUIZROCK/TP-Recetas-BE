@@ -29,7 +29,7 @@ export const listarRecetas = async(req,res)=>{
     try {
         const listaRecetas= await Receta.find()
 
-        res.status(200).json("se obtuvo la lista de recetas")
+        res.status(200).json(listaRecetas)
     } catch (error) {
         console.error(error)
         res.status(400).json({
