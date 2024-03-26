@@ -1,8 +1,18 @@
-import Tarea from "../database/models/receta.js"
+import Receta from "../database/models/receta.js"
+import { validationResult } from "express-validator";
 
 export const crearReceta = async(req,res)=>{
     try {
-        const nuevaReceta = new Tarea(req.body);
+
+        const errores = validationResult(req)
+
+        if(!errores.isEmpty()){
+             return res.status(400).json({
+                errores: errores.array()
+            })    
+        }
+
+        const nuevaReceta = new Receta(req.body);
 
         await nuevaReceta.save()
 
@@ -17,7 +27,7 @@ export const crearReceta = async(req,res)=>{
 
 export const listarRecetas = async(req,res)=>{
     try {
-        const listaRecetas= await Tarea.find()
+        const listaRecetas= await Receta.find()
 
         res.status(200).json("se obtuvo la lista de recetas")
     } catch (error) {
@@ -32,7 +42,7 @@ export const obtenerReceta = async(req, res)=>{
     try{
         console.log(req.params.id);
 
-        const recetaBuscada = await Tarea.findById(req.params.id);
+        const recetaBuscada = await Receta.findById(req.params.id);
 
         res.status(200).json(recetaBuscada);
     }catch(error){
@@ -44,12 +54,12 @@ export const obtenerReceta = async(req, res)=>{
 export const editarReceta = async (req, res) => {
     try {
 
-      const recetaBuscada =  await Tarea.findById(req.params.id);
+      const recetaBuscada =  await Receta.findById(req.params.id);
 
       if(!recetaBuscada){
           return res.status(404).json({mensaje: "La receta no fue encontrado."});
       }
-      await Tarea.findByIdAndUpdate(req.params.id, req.body);
+      await Receta.findByIdAndUpdate(req.params.id, req.body);
 
       res.status(200).json({mensaje: "La receta fue editada correctamente"})
     } catch (error) {
@@ -60,11 +70,11 @@ export const editarReceta = async (req, res) => {
 
 export const borrarReceta = async (req, res) => {
     try {
-      const recetaBuscada =  await Tarea.findById(req.params.id);
+      const recetaBuscada =  await Receta.findById(req.params.id);
       if(!recetaBuscada){
           return res.status(404).json({mensaje: "La receta no fue encontrado."});
       }
-      await Tarea.findByIdAndDelete(req.params.id);
+      await Receta.findByIdAndDelete(req.params.id);
 
       res.status(200).json({mensaje: "la receta fue borrado correctamente"})
     } catch (error) {
