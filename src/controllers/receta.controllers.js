@@ -27,3 +27,16 @@ export const listarRecetas = async(req,res)=>{
         })
     }
 }
+
+export const obtenerReceta = async(req, res)=>{
+    try{
+        console.log(req.params.id);
+
+        const recetaBuscada = await Tarea.findById(req.params.id);
+
+        res.status(200).json(recetaBuscada);
+    }catch(error){
+        console.error(error)
+        res.status(404).json({mensaje: "No se encontro la receta buscada"})
+    }
+}
