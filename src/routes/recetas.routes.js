@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { borrarReceta, crearReceta, editarReceta, listarReceta, obtenerReceta } from "../controllers/receta.controllers.js";
+import { borrarReceta, crearReceta, editarReceta, listarRecetas, obtenerReceta } from "../controllers/receta.controllers.js";
 import { check } from "express-validator";
 
 const router = Router();
 
-router.route('/receta').get(listarReceta).post(
+router.route('/receta').get(listarRecetas).post(
     [
         check("titulo")
         .notEmpty()
@@ -26,7 +26,7 @@ router.route('/receta').get(listarReceta).post(
 
         check("tipo")
         .notEmpty()
-        .withMessage("la importancia es obligatorio")
+        .withMessage("el tipo es obligatorio")
     ]
     ,crearReceta)
 router.route('/receta/:id').get(obtenerReceta).put(editarReceta).delete(borrarReceta)
