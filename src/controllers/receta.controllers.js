@@ -14,3 +14,16 @@ export const crearReceta = async(req,res)=>{
         })
     }
 }
+
+export const listarRecetas = async(req,res)=>{
+    try {
+        const listaRecetas= await Tarea.find()
+
+        res.status(200).json("se obtuvo la lista de recetas")
+    } catch (error) {
+        console.error(error)
+        res.status(400).json({
+            mensaje: "error: no se pudo obtener la lista de recetas"
+        })
+    }
+}
