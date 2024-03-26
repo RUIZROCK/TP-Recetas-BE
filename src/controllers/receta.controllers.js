@@ -40,3 +40,20 @@ export const obtenerReceta = async(req, res)=>{
         res.status(404).json({mensaje: "No se encontro la receta buscada"})
     }
 }
+
+export const editarReceta = async (req, res) => {
+    try {
+
+      const recetaBuscada =  await Tarea.findById(req.params.id);
+
+      if(!recetaBuscada){
+          return res.status(404).json({mensaje: "La receta no fue encontrado."});
+      }
+      await Tarea.findByIdAndUpdate(req.params.id, req.body);
+
+      res.status(200).json({mensaje: "La receta fue editada correctamente"})
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({mensaje: "Ocurrio un error al editar la receta"})
+    }
+}
